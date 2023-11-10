@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.year-explorer" name="[B]Year Explorer[/B]" version="0.1" provider-name="gbchr">
+	
+	<requires>
+		<import addon="script.module.kodi-six" />
+		<import addon="script.module.requests" />
+		<import addon="script.module.future" />
+	</requires>
+
+	<extension point="xbmc.python.pluginsource" library="addon.py">
+		<provides>video</provides>
+	</extension>
+
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="pt">Year Explorer</summary>
+		<description lang="pt">Explore filmes e séries de acordo com ano de lançamento</description>
+		<license>GNU General Public License, v2</license>
+		<source></source>
+		<assets>
+			<icon>resources/media/icon.png</icon>
+			<fanart>resources/media/fanart.jpg</fanart>
+			<screenshot>resources/media/screenshot1.png</screenshot>
+			<screenshot>resources/media/screenshot2.png</screenshot>
+			<screenshot>resources/media/screenshot3.png</screenshot>
+			<screenshot>resources/media/screenshot4.png</screenshot>
+			<screenshot>resources/media/screenshot5.png</screenshot>
+		</assets>
+	</extension>
+
+</addon>
