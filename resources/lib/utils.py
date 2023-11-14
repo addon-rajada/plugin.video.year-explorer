@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2023 gbchr
 
 from resources.lib import routing, utils
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
@@ -137,6 +138,13 @@ def createItem(url, label, **kwargs):
 			"plot": kwargs['plot'],
 			"mediatype": kwargs['mediatype']
 		})
+		# check and fix for original elementum context menu
+		if kwargs['mediatype'] == 'tvshow':
+			li.setInfo(type="video", infoLabels = {
+				"tvshowtitle": label,
+				"season": 1,
+				"mediatype": "season"
+			})
 		li.setArt({
 			'icon': kwargs['image'], 'thumb': kwargs['image'],
 			'poster': kwargs['image'], 'banner': kwargs['image']
@@ -147,14 +155,21 @@ def createItem(url, label, **kwargs):
 		li.setProperty("year", str(kwargs['current_year']))
 		#li.setProperty("show_dialog_busy", "false")
 
+		CM_items = []
 		# context menu for similar content
 		similar_link = plugin.base_url + '/similar/%s/%s/1' % (kwargs['id'], kwargs['mediatype'])
-		li.addContextMenuItems([('Similar', 'Container.Update(%s)' % (similar_link))])
-		
+		similar_item = ('Conteúdo similar', 'Container.Update(%s)' % (similar_link))
+		CM_items.append(similar_item)
+		# context menu for original title search
+		title_item = ('Buscar com título original', 'RunPlugin(%s)' % (kwargs['real_title_search']))
+		CM_items.append(title_item)
+		# add context menu to ListItem
+		li.addContextMenuItems(CM_items)
+
 	except Exception as e:
 		log(e)
 	addDirectoryItem(plugin.handle, url, li)
 
 def endDirectory():
-	endOfDirectory(plugin.handle, succeeded=True, cacheToDisc=False)
+	endOfDirectory(plugin.handle, succeeded=True, cacheToDisc=True)
 

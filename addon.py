@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2023 gbchr
 
 from resources.lib import routing, utils, parser
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
@@ -36,7 +37,8 @@ def list_items(year, page):
 							fanart = item['background'],
 							current_year = year,
 							id = item['tmdb'],
-							mediatype = item['tipo'])
+							mediatype = item['tipo'],
+							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
 	if int(page) > 1:
 		utils.createFolder(list_items, 'Página anterior', [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	utils.createFolder(list_items, 'Próxima página', [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
@@ -56,7 +58,8 @@ def list_similar(id, type, page):
 							fanart = item['background'],
 							current_year = year,
 							id = item['tmdb'],
-							mediatype = item['tipo'])
+							mediatype = item['tipo'],
+							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
 	if int(page) > 1:
 		utils.createFolder(list_similar, 'Página anterior', [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	utils.createFolder(list_similar, 'Próxima página', [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')

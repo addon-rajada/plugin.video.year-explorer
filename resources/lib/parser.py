@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2023 gbchr
 
 from resources.lib import utils, tmdb
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
@@ -50,6 +51,7 @@ def parse_movies_result(json):
 				'metodo_busca': 'search',
 				'tmdb': r['id'],
 				'titulo': r['title'],
+				'titulo_original': r['original_title'],
 				'sinopse': 'Filme\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['release_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
 				'background': 'https://image.tmdb.org/t/p/w780' + r['backdrop_path'],
@@ -69,6 +71,7 @@ def parse_shows_result(json):
 				'metodo_busca': 'search',
 				'tmdb': r['id'],
 				'titulo': r['name'],
+				'titulo_original': r['original_name'],
 				'sinopse': 'Série\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['first_air_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
 				'background': 'https://image.tmdb.org/t/p/w780' + r['backdrop_path'],

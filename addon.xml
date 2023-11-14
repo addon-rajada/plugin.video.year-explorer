@@ -16,7 +16,7 @@
 		<summary lang="pt">Year Explorer</summary>
 		<description lang="pt">Explore filmes e séries de acordo com ano de lançamento</description>
 		<license>GNU General Public License, v2</license>
-		<source></source>
+		<source>https://github.com/addon-rajada/plugin.video.year-explorer</source>
 		<assets>
 			<icon>resources/media/icon.png</icon>
 			<fanart>resources/media/fanart.jpg</fanart>
