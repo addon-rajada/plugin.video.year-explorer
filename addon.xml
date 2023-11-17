@@ -14,7 +14,9 @@
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="pt">Year Explorer</summary>
+		<summary lang="en">Year Explorer</summary>
 		<description lang="pt">Explore filmes e séries de acordo com ano de lançamento</description>
+		<description lang="en">Explore movies and tv shows by release year</description>
 		<license>GNU General Public License, v2</license>
 		<source>https://github.com/addon-rajada/plugin.video.year-explorer</source>
 		<assets>

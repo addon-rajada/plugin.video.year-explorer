@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2023 gbchr
 
-from resources.lib import routing, utils
+from resources.lib import routing
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem, endOfDirectory
