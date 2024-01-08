@@ -2,29 +2,36 @@
 # Copyright (C) 2023 gbchr
 
 import requests
-from kodi_six import xbmc, xbmcgui
+from kodi_six import xbmc, xbmcgui, xbmcaddon
+
+lang = xbmcaddon.Addon().getSetting('idioma')
 
 API_key = 'bc96b19479c7db6c8ae805744d0bdfe2' # from umbrella
 
-find_url = 'https://api.themoviedb.org/3/find/%s?language=pt-BR&api_key=%s&external_source=%s' % ('%s', API_key, '%s')
+find_url = 'https://api.themoviedb.org/3/find/%s?language=%s&api_key=%s&external_source=%s' % ('%s', lang, API_key, '%s')
 # https://api.themoviedb.org/3/find/tt0081505?api_key=bc96b19479c7db6c8ae805744d0bdfe2&external_source=imdb_id&language=pt-BR
 
-details_url = 'https://api.themoviedb.org/3/%s/%s?api_key=%s&language=pt-BR' % ('%s', '%s', API_key)
+details_url = 'https://api.themoviedb.org/3/%s/%s?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
 # https://api.themoviedb.org/3/movie/tt0081505?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
 # https://api.themoviedb.org/3/tv/1402?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
 # https://api.themoviedb.org/3/person/3027?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
 
-externalids_url = 'https://api.themoviedb.org/3/%s/%s/external_ids?api_key=%s&language=pt-BR' % ('%s', '%s', API_key)
+externalids_url = 'https://api.themoviedb.org/3/%s/%s/external_ids?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
 # https://api.themoviedb.org/3/movie/694/external_ids?api_key=bc96b19479c7db6c8ae805744d0bdfe2
 # https://api.themoviedb.org/3/tv/1402/external_ids?api_key=bc96b19479c7db6c8ae805744d0bdfe2
 
-discover_year_url = 'https://api.themoviedb.org/3/discover/%s?api_key=%s&%s=%s&language=pt-BR&page=%s&sort_by=%s' % ('%s', API_key, '%s', '%s', '%s', '%s')
+discover_year_url = 'https://api.themoviedb.org/3/discover/%s?api_key=%s&%s=%s&language=%s&page=%s&sort_by=%s' % ('%s', API_key, '%s', '%s', lang, '%s', '%s')
 # https://api.themoviedb.org/3/discover/movie?api_key=bc96b19479c7db6c8ae805744d0bdfe2&primary_release_year=1999&language=pt-BR&page=1
 # https://api.themoviedb.org/3/discover/tv?api_key=bc96b19479c7db6c8ae805744d0bdfe2&first_air_date_year=1999&language=pt-BR&page=1
 
-similar_url = 'https://api.themoviedb.org/3/%s/%s/%s?api_key=%s&language=pt-BR&sort_by=%s&page=%s' % ('%s', '%s', '%s', API_key, '%s', '%s')
+similar_url = 'https://api.themoviedb.org/3/%s/%s/%s?api_key=%s&language=%s&sort_by=%s&page=%s' % ('%s', '%s', '%s', API_key, lang, '%s', '%s')
 # https://api.themoviedb.org/3/movie/694/similar?api_key=bc96b19479c7db6c8ae805744d0bdfe2
 # https://api.themoviedb.org/3/tv/1402/similar?api_key=bc96b19479c7db6c8ae805744d0bdfe2
+
+trending_url = 'https://api.themoviedb.org/3/trending/%s/week?api_key=%s&page=%s&language=%s&sort_by=%s' % ('%s', API_key, '%s', lang, '%s')
+# https://api.themoviedb.org/3/trending/movie/day?api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
+# https://api.themoviedb.org/3/trending/tv/day?api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
+# https://api.themoviedb.org/3/trending/all/week?api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
 
 def get_request(url):
 	try:
@@ -97,6 +104,18 @@ def GetSimilar(type, id, endpoint, page = 1):
 		sortBy = 'popularity.desc' # 'vote_count'
 		if type == 'tvshow': type = 'tv'
 		url = similar_url % (type, id, endpoint, sortBy, page)
+		result = get_request(url)
+		if not result: raise Exception()
+	except:
+		pass
+	return result
+
+def GetTrending(type, page = 1):
+	result = None
+	try:
+		sortBy = 'popularity.desc' # 'vote_count'
+		if type == 'tvshow': type = 'tv'
+		url = trending_url % (type, page, sortBy)
 		result = get_request(url)
 		if not result: raise Exception()
 	except:

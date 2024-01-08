@@ -15,6 +15,7 @@ def index():
 	current_year = datetime.now().year
 	years = reversed(range(1894, current_year + 1))
 	utils.createWelcomeItem(welcome_label, welcome_plot, index)
+	utils.createFolder(list_popular, "Popular", [1], 'icon.png', "Popular", 'icon.png')
 	for item in years:
 		utils.createFolder(list_items,
 						str(item),
@@ -66,6 +67,25 @@ def list_similar(id, type, page):
 	utils.set_view('infowall')
 	utils.endDirectory()
 
+@plugin.route('/popular/<page>')
+def list_popular(page):
+	for item in parser.get_trending(page):
+		year = item['data'][0:4]
+		elementum = utils.elementum_url(item['metodo_busca'], item['titulo'], year, item['tmdb'])
+		utils.createItem(elementum,
+							item['titulo'],
+							image = item['imagem'],
+							plot = item['sinopse'],
+							fanart = item['background'],
+							current_year = year,
+							id = item['tmdb'],
+							mediatype = item['tipo'],
+							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
+	if int(page) > 1:
+		utils.createFolder(list_popular, 'Página anterior', [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
+	utils.createFolder(list_popular, 'Próxima página', [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_view('infowall')
+	utils.endDirectory()
 
 if __name__ == '__main__':
 	utils.plugin = plugin

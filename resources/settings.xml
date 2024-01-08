@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Config">
+        <setting label="Idioma" id="idioma" type="labelenum" values="pt-BR|pt-PT|en-US|es-ES|es-MX|es-AR" default="pt-BR" />
+    </category>
+</settings>

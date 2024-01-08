@@ -10,14 +10,37 @@ def sorted_results(content):
 	# float(r['nota']) * float(r['votos'])
 	return sorted(content, key = lambda r: pow(float(r['nota']), 2) * sqrt(float(r['votos'])), reverse=True)
 
+
+def get_trending(page = 1):
+	movie_page = int(page) * 2
+	m1 = tmdb.GetTrending('movie', movie_page - 1)
+	m2 = tmdb.GetTrending('movie', movie_page)
+	s = tmdb.GetTrending('tv', page)
+	all = []
+	# movies
+	if m1 != None: all += parse_movies_result(m1)
+	else: utils.notify('Falha ao carregar filmes')
+	if m2 != None: all += parse_movies_result(m2)
+	else: utils.notify('Falha ao Carregar Filmes')
+	# tv shows
+	if s != None: all += parse_shows_result(s)
+	else: utils.notify('Falha ao carregar séries')
+	return sorted_results(all)
+
+
+
 def get_data_from_year(year, page = 1):
-	m = tmdb.DiscoverByYear(year, 'movie', page)
+	movie_page = int(page) * 2
+	m1 = tmdb.DiscoverByYear(year, 'movie', movie_page - 1)
+	m2 = tmdb.DiscoverByYear(year, 'movie', movie_page)
 	s = tmdb.DiscoverByYear(year, 'tv', page)
 	all = []
 
 	# movies
-	if m != None: all += parse_movies_result(m)
+	if m1 != None: all += parse_movies_result(m1)
 	else: utils.notify('Falha ao carregar filmes')
+	if m2 != None: all += parse_movies_result(m2)
+	else: utils.notify('Falha ao Carregar Filmes')
 
 	# tv shows
 	if s != None: all += parse_shows_result(s)
