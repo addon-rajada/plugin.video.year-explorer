@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.year-explorer" name="[B]Year Explorer[/B]" version="0.1" provider-name="gbchr">
+<addon id="plugin.video.year-explorer" name="[B]Year Explorer[/B]" version="0.2" provider-name="gbchr">
 	
 	<requires>
 		<import addon="script.module.kodi-six" />
@@ -15,8 +15,10 @@
 		<platform>all</platform>
 		<summary lang="pt">Year Explorer</summary>
 		<summary lang="en">Year Explorer</summary>
+		<summary lang="es">Year Explorer</summary>
 		<description lang="pt">Explore filmes e séries de acordo com ano de lançamento</description>
 		<description lang="en">Explore movies and tv shows by release year</description>
+		<description lang="es">Explora películas y programas de televisión por año de lanzamiento</description>
 		<license>GNU General Public License, v2</license>
 		<source>https://github.com/addon-rajada/plugin.video.year-explorer</source>
 		<assets>
