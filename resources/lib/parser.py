@@ -96,8 +96,10 @@ def parse_shows_result(json):
 				'titulo': r['name'],
 				'titulo_original': r['original_name'],
 				'sinopse': 'Série\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['first_air_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
+				# w500, w780, original
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
-				'background': 'https://image.tmdb.org/t/p/w780' + r['backdrop_path'],
+				# w500, w780, w1280, w1920, original
+				'background': 'https://image.tmdb.org/t/p/w1280' + r['backdrop_path'],
 				'data': r['first_air_date'],
 				'nota': r['vote_average'],
 				'votos': r['vote_count']
