@@ -13,6 +13,7 @@ def index():
 	current_year = datetime.now().year
 	years = reversed(range(1894, current_year + 1))
 	utils.createWelcomeItem(utils.localStr(32002), utils.localStr(32003), index)
+	utils.createFolder(search, utils.localStr(32000), ['NO_QUERY_VALUE', FIRST_PAGE], utils.icon_img, utils.localStr(32000), utils.icon_img)
 	utils.createFolder(list_popular, utils.localStr(32001), [FIRST_PAGE], utils.icon_img, utils.localStr(32001), utils.icon_img)
 	for item in years:
 		utils.createFolder(list_items,
@@ -44,6 +45,30 @@ def show_dialog(title, year, tmdb_id, mediatype, elementum_type = ''):
 	del window
 	return retval
 
+@plugin.route('/search/<query>/<page>')
+def search(query, page):
+	if query == 'NO_QUERY_VALUE':
+		query = utils.keyboard('', utils.localStr(32000))
+		if query == None or query == '': return
+	for item in parser.get_search_results(query, page):
+		year = item['data'][0:4]
+		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		utils.createItem(url,
+							item['titulo'],
+							image = item['imagem'],
+							plot = item['sinopse'],
+							fanart = item['background'],
+							current_year = year,
+							id = item['tmdb'],
+							mediatype = item['tipo'],
+							real_title_search = real_title_url )
+	if int(page) > 1:
+		utils.createFolder(search, utils.localStr(32004), [query, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
+	utils.createFolder(search, utils.localStr(32005), [query, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_container_type('albums')
+	utils.set_view('infowall')
+	utils.endDirectory()
 
 @plugin.route('/year/<year>/<page>')
 def list_items(year, page):

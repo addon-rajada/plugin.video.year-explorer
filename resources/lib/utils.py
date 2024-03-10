@@ -27,6 +27,12 @@ fanart_img = 'fanart.jpg'
 def localStr(id):
 	return addon.getLocalizedString(id)
 
+def keyboard(placeholder, title):
+	kb = xbmc.Keyboard(placeholder, title)
+	kb.doModal()
+	if kb.isConfirmed(): return kb.getText()
+	else: return None
+
 def bold(text):
 	# return bold text
 	return '[B]' + text + '[/B]'

@@ -33,6 +33,10 @@ trending_url = 'https://api.themoviedb.org/3/trending/%s/week?api_key=%s&page=%s
 # https://api.themoviedb.org/3/trending/tv/day?api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
 # https://api.themoviedb.org/3/trending/all/week?api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
 
+search_url = 'https://api.themoviedb.org/3/search/%s?query=%s&api_key=%s&page=%s&language=%s&sort_by=%s' % ('%s', '%s', API_key, '%s', lang, '%s')
+# https://api.themoviedb.org/3/search/movie?query=o+iluminado&api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
+# https://api.themoviedb.org/3/search/tv?query=o+iluminado&api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
+
 def get_request(url):
 	try:
 		try: response = requests.get(url)
@@ -116,6 +120,18 @@ def GetTrending(type, page = 1):
 		sortBy = 'popularity.desc' # 'vote_count'
 		if type == 'tvshow': type = 'tv'
 		url = trending_url % (type, page, sortBy)
+		result = get_request(url)
+		if not result: raise Exception()
+	except:
+		pass
+	return result
+
+def QuerySearch(type, query, page = 1):
+	result = None
+	try:
+		sortBy = 'popularity.desc' # 'vote_count'
+		if type == 'tvshow': type = 'tv'
+		url = search_url % (type, query, page, sortBy)
 		result = get_request(url)
 		if not result: raise Exception()
 	except:

@@ -64,6 +64,15 @@ def get_similar_content_data(id, mediatype, page = 1):
 
 	return sorted_results(all)
 
+def get_search_results(query, page = 1):
+	m = tmdb.QuerySearch('movie', query, page)
+	s = tmdb.QuerySearch('tv', query, page)
+	all = []
+	if m != None: all += parse_movies_result(m)
+	else: utils.notify(utils.localStr(32009))
+	if s != None: all += parse_shows_result(s)
+	else: utils.notify(utils.localStr(32011))
+	return sorted_results(all)
 
 def parse_movies_result(json):
 	all = []
@@ -76,8 +85,10 @@ def parse_movies_result(json):
 				'titulo': r['title'],
 				'titulo_original': r['original_title'],
 				'sinopse': 'Filme\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['release_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
+				# w500, w780, original
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
-				'background': 'https://image.tmdb.org/t/p/w780' + r['backdrop_path'],
+				# w500, w780, w1280, w1920, original
+				'background': 'https://image.tmdb.org/t/p/w1280' + r['backdrop_path'],
 				'data': r['release_date'],
 				'nota': r['vote_average'],
 				'votos': r['vote_count']
