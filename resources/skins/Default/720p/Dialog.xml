@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+	
+	<controls>
+		<control type="group">
+			<left>320</left>
+			<top>120</top>
+			<animation reversible="false" type="WindowOpen">
+				<effect center="640,360" delay="400" easing="out" end="100" start="80" time="200" tween="back" type="zoom" />
+				<effect delay="400" end="100" start="0" time="200" type="fade" />
+			</animation>
+			<animation reversible="false" type="WindowClose">
+				<effect center="640,360" delay="400" easing="in" end="80" start="100" time="200" tween="back" type="zoom" />
+				<effect delay="400" end="0" start="100" time="200" type="fade" />
+			</animation>
+			
+			<control type="image">
+				<width>640</width>
+				<height>480</height>
+				<texture colordiffuse="cc151515">window_white.png</texture>
+			</control>
+			
+			<control type="image">
+				<left>15</left>
+				<top>20</top>
+				<width>610</width>
+				<height>440</height>
+				<texture colordiffuse="fa000000">window_white.png</texture>
+			</control>
+
+			<control id="32500" type="button">
+				<left>580</left>
+				<top>25</top>
+				<width>32</width>
+				<height>32</height>
+				<texturefocus colordiffuse="ffffffff">button_close.png</texturefocus>
+				<texturenofocus colordiffuse="ff2b2b2b">button_close.png</texturenofocus>
+				<onup>32508</onup>
+				<ondown>32502</ondown>
+				<onleft>32503</onleft>
+				<onright>32503</onright>
+			</control>
+
+			<control id="32501" type="label">	
+				<left>145</left>
+				<top>29</top>
+				<width>350</width>
+				<height>21</height>
+				<font>font14</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<scroll>true</scroll>
+				<textcolor>white</textcolor>
+			</control>
+
+			<control id="32502" type="scrollbar">	
+				<left>610</left>
+				<top>60</top>
+				<width>5</width>
+				<height>386</height>
+				<onup>32500</onup>
+				<onleft>32503</onleft>
+				<texturesliderbackground border="5" colordiffuse="f2151515">window_white.png</texturesliderbackground>
+				<texturesliderbar border="5" colordiffuse="ff2b2b2b">window_white.png</texturesliderbar>
+				<texturesliderbarfocus border="5" colordiffuse="ffffffff">window_white.png</texturesliderbarfocus>
+				<textureslidernib />
+				<textureslidernibfocus />
+				<showonepage>false</showonepage>
+				<orientation>vertical</orientation>
+			</control>
+
+			<control type="label" id="32505">
+			   <left>40</left>
+			   <top>90</top>
+			   <width>575</width>
+			   <height>80</height>
+			   <font>font12</font>
+			   <colordiffuse>FFFFFFFF</colordiffuse>
+			   <textcolor>FFFFFFFF</textcolor>
+			   <align>left</align>
+			   <aligny>center</aligny>
+			</control>
+
+			<control id="32503" type="panel">
+				<left>33</left>
+				<top>180</top>
+				<width>575</width>
+				<height>390</height>
+				<onup>32503</onup>
+				<ondown>32503</ondown>
+				<onleft>32500</onleft>
+				<onright>32502</onright>
+				<align>center</align>
+				<viewtype>list</viewtype>
+				<pagecontrol>32502</pagecontrol>
+				<scrolltime easing="inout" tween="cubic">250</scrolltime>
+				<itemlayout height="65" width="1135">
+					
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<width>576</width>
+						<height>60</height>
+						<texture colordiffuse="f2151515">window_white.png</texture>
+					</control>
+					
+					<control type="image">
+						<left>10</left>
+						<top>0</top>
+						<width>60</width>
+						<height>60</height>
+						<texture>$INFO[ListItem.Icon]</texture>
+					</control>
+					
+					<control type="label">
+						<left>80</left>
+						<top>2</top>
+						<width>514</width>
+						<height>29</height>
+						<font>font14</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<scroll>true</scroll>
+						<textcolor>white</textcolor>
+						<shadowcolor>b2000000</shadowcolor>
+						<info>ListItem.Label</info>
+					</control>
+					
+					<control type="label">
+						<left>80</left>
+						<top>30</top>
+						<width>514</width>
+						<height>29</height>
+						<font>font12</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<shadowcolor>b2000000</shadowcolor>
+						<info>ListItem.Label2</info>
+					</control>
+				</itemlayout>
+
+				<focusedlayout height="65" width="1135">
+
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<width>576</width>
+						<height>60</height>
+						<texture colordiffuse="ff2b2b2b">window_white.png</texture>
+					</control>
+
+					<control type="image">
+						<left>10</left>
+						<top>0</top>
+						<width>60</width>
+						<height>60</height>
+						<texture>$INFO[ListItem.Icon]</texture>
+					</control>
+
+					<control type="label">
+						<left>80</left>
+						<top>2</top>
+						<width>514</width>
+						<height>29</height>
+						<font>font14</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<scroll>true</scroll>
+						<textcolor>white</textcolor>
+						<shadowcolor>b2000000</shadowcolor>
+						<info>ListItem.Label</info>
+					</control>
+
+					<control type="label">
+						<left>80</left>
+						<top>30</top>
+						<width>514</width>
+						<height>29</height>
+						<font>font12</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<scroll>true</scroll>
+						<textcolor>white</textcolor>
+						<shadowcolor>b2000000</shadowcolor>
+						<info>ListItem.Label2</info>
+					</control>
+
+				</focusedlayout>
+			</control>
+		</control>
+	</controls>
+</window>

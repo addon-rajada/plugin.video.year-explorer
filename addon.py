@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2023 gbchr
 
-from resources.lib import routing, utils, parser
+from resources.lib import routing, utils, parser, tmdb, dialog
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
 from datetime import datetime
 
@@ -23,15 +23,36 @@ def index():
 						'icon.png',
 						str(item),
 						'icon.png')
+	utils.set_container_type('albums')
 	utils.set_view('widelist')
 	utils.endDirectory()
 	
 
+@plugin.route('/show_dialog/<title>/<year>/<tmdb_id>/<mediatype>/<elementum_type>')
+def show_dialog(title, year, tmdb_id, mediatype, elementum_type = ''):
+	mediatype = 'tv' if mediatype == 'tvshow' else 'movie'
+	ext_ids = tmdb.get_external_ids(tmdb_id, mediatype)
+	try: imdb_id = ext_ids["imdb_id"]
+	except: imdb_id = 'No IMDB'
+	try: tvdb_id = ext_ids['tvdb_id']
+	except: tvdb_id = 'No TVDB'
+
+	item_str = 'TMDB: %s[CR]IMDB: %s[CR]TVDB: %s' % (tmdb_id, imdb_id, tvdb_id)
+	players = dialog.create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, elementum_type)
+
+	window = dialog.DialogSelect("Dialog.xml", utils.home, "Default", title = 'Year Explorer', items = players, item_info = item_str)
+	window.doModal()
+	retval = window.retval
+	del window
+	return retval
+
+
 @plugin.route('/year/<year>/<page>')
 def list_items(year, page):
 	for item in parser.get_data_from_year(year, page):
-		elementum = utils.elementum_url(item['metodo_busca'], item['titulo'], year, item['tmdb'])
-		utils.createItem(elementum,
+		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		utils.createItem(url,
 							item['titulo'],
 							image = item['imagem'],
 							plot = item['sinopse'],
@@ -39,10 +60,11 @@ def list_items(year, page):
 							current_year = year,
 							id = item['tmdb'],
 							mediatype = item['tipo'],
-							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
+							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_items, 'Página anterior', [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	utils.createFolder(list_items, 'Próxima página', [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
 
@@ -51,8 +73,9 @@ def list_items(year, page):
 def list_similar(id, type, page):
 	for item in parser.get_similar_content_data(id, type, page):
 		year = item['data'][0:4]
-		elementum = utils.elementum_url(item['metodo_busca'], item['titulo'], year, item['tmdb'])
-		utils.createItem(elementum,
+		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		utils.createItem(url,
 							item['titulo'],
 							image = item['imagem'],
 							plot = item['sinopse'],
@@ -60,10 +83,11 @@ def list_similar(id, type, page):
 							current_year = year,
 							id = item['tmdb'],
 							mediatype = item['tipo'],
-							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
+							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_similar, 'Página anterior', [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	utils.createFolder(list_similar, 'Próxima página', [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
 
@@ -71,8 +95,9 @@ def list_similar(id, type, page):
 def list_popular(page):
 	for item in parser.get_trending(page):
 		year = item['data'][0:4]
-		elementum = utils.elementum_url(item['metodo_busca'], item['titulo'], year, item['tmdb'])
-		utils.createItem(elementum,
+		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		utils.createItem(url,
 							item['titulo'],
 							image = item['imagem'],
 							plot = item['sinopse'],
@@ -80,10 +105,11 @@ def list_popular(page):
 							current_year = year,
 							id = item['tmdb'],
 							mediatype = item['tipo'],
-							real_title_search = utils.elementum_url(item['metodo_busca'], item['titulo_original'], year, item['tmdb']) )
+							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_popular, 'Página anterior', [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	utils.createFolder(list_popular, 'Próxima página', [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
 

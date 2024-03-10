@@ -60,9 +60,11 @@ def current_view_id():
 	win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
 	return str(win.getFocusId())
 
+def set_container_type(type):
+	# update container content: movies, albums, videos ...
+	xbmcplugin.setContent(plugin.handle, type)
+
 def set_view(name):
-	# update container content and view type
-	xbmcplugin.setContent(plugin.handle, 'albums')
 	# ref: https://github.com/xbmc/xbmc/tree/master/addons/skin.estuary/xml
 	views_dict = {
 		'list': 50,
@@ -83,6 +85,23 @@ def set_view(name):
 def youtube_url(id):
 	return 'plugin://plugin.video.youtube/play/?video_id=' + id + '&incognito=true'
 
+def torrest_url(title, year):
+	# ref: https://github.com/i96751414/plugin.video.flix/blob/master/lib/navigation.py
+	query = "%s+%s" % (title, year)
+	return 'plugin://plugin.video.flix/providers/play_query?query=%s' % query
+
+def jacktook_url(type, title, tmdb, imdb, tvdb):
+	# ref: https://github.com/Sam-Max/plugin.video.jacktook/blob/main/resources/lib/navigation.py
+	if type == 'movie':
+		return f'plugin://plugin.video.jacktook/search?mode={type}&query={title}&ids={tmdb}%2C%20{tvdb}%2C%20{imdb}'
+	elif type == 'tv':
+		episode_name = title.replace(',',' ')
+		episode_num = '1'
+		season_num = '1'
+		#extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}'
+		extra = f'&tvdata={episode_num}%2C%20{season_num}'
+		return f'plugin://plugin.video.jacktook/search?mode={type}&query={title}&ids={tmdb}%2C%20{tvdb}%2C%20{imdb}' + extra
+
 def elementum_url(type, title, year = '', id = ''):
 	# ref: https://github.com/elgatito/elementum/blob/master/api/routes.go
 	title = title.replace(' ', '+')
@@ -99,12 +118,18 @@ def elementum_url(type, title, year = '', id = ''):
 		url = "plugin://plugin.video.elementum/search?q=" + quote(query)
 	return url
 
-def play(url):
+def play(url, mode = 'resolved', li = None):
+	if li == None:
+		li = xbmcgui.ListItem(path=url)
 	# play url
-	xbmcplugin.setResolvedUrl(plugin.handle, True, xbmcgui.ListItem(path=url))
-	#xbmc.executebuiltin("PlayMedia(%s)" % url)
-	#xbmc.executebuiltin('RunPlugin(%s)' % url)
-	#xbmc.Player().play(url)
+	if mode == 'resolved':
+		xbmcplugin.setResolvedUrl(plugin.handle, True, li)
+	elif mode == 'media':
+		xbmc.executebuiltin("PlayMedia(%s)" % url)
+	elif mode == 'plugin':
+		xbmc.executebuiltin('RunPlugin(%s)' % url)
+	elif mode == 'player':
+		xbmc.Player().play(url, li)
 
 def createFolder(function, label, arguments_list, image = icon_img, plot = '', thumb = icon_img):
 	# create folder linked to some function and given arguments
@@ -168,7 +193,7 @@ def createItem(url, label, **kwargs):
 
 	except Exception as e:
 		log(e)
-	addDirectoryItem(plugin.handle, url, li)
+	addDirectoryItem(plugin.handle, url, li, isFolder = False)
 
 def endDirectory():
 	endOfDirectory(plugin.handle, succeeded=True, cacheToDisc=True)
