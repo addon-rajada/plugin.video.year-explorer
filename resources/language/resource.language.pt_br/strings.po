@@ -1,0 +1,99 @@
+# Kodi Media Center language file
+# Addon Name: Year Explorer
+# Addon id: plugin.video.year-explorer
+# Addon Provider: gbchr
+
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_br\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: This is a comment
+
+msgctxt "#32000"
+msgid "Search"
+msgstr "Pesquisar"
+
+msgctxt "#32001"
+msgid "Popular"
+msgstr "Popular"
+
+msgctxt "#32002"
+msgid "Welcome to Year Explorer"
+msgstr "Bem-vindo ao Year Explorer"
+
+msgctxt "#32003"
+msgid "Elementum/Jacktook/Torrest and Rajada are needed for Torrent search\n\nContact:\naddon.rajada@proton.me"
+msgstr "Necessário Elementum/Jacktook/Torrest e Rajada para realizar busca dos Torrents\n\nContato pelo email:\naddon.rajada@proton.me"
+
+msgctxt "#32004"
+msgid "Previous page"
+msgstr "Página anterior"
+
+msgctxt "#32005"
+msgid "Next page"
+msgstr "Próxima página"
+
+msgctxt "#32006"
+msgid "Elementum and Burst/Rajada are needed"
+msgstr "Necessário Elementum e Burst/Rajada"
+
+msgctxt "#32007"
+msgid "Jacktook and Elementum/Torrest are needed"
+msgstr "Necessário Jacktook e Elementum/Torrest"
+
+msgctxt "#32008"
+msgid "Torrest, Flix and Flix Rajada are needed"
+msgstr "Necessário Torrest, Flix e Flix Rajada"
+
+msgctxt "#32009"
+msgid "Failed to load movies"
+msgstr "Falha ao carregar filmes"
+
+msgctxt "#32010"
+msgid "Failed to load Movies"
+msgstr "Falha ao Carregar Filmes"
+
+msgctxt "#32011"
+msgid "Failed to load TV shows"
+msgstr "Falha ao carregar séries"
+
+msgctxt "#32012"
+msgid "Failed to load similar content"
+msgstr "Falha ao carregar conteúdo similar"
+
+msgctxt "#32013"
+msgid "Failed to load recommended content"
+msgstr "Falha ao carregar conteúdo recomendado"
+
+msgctxt "#32014"
+msgid "Similar content"
+msgstr "Conteúdo similar"
+
+msgctxt "#32015"
+msgid "Search with original title"
+msgstr "Buscar com título original"
+
+msgctxt "#32016"
+msgid "API language"
+msgstr "Idioma da API"
+
+msgctxt "#32017"
+msgid "General"
+msgstr "Geral"
+
+msgctxt "#32018"
+msgid "No IMDB"
+msgstr "Sem IMDB id"
+
+msgctxt "#32019"
+msgid "No TVDB"
+msgstr "Sem TVDB id"
+
+msgctxt "#32020"
+msgid ""
+msgstr ""
+

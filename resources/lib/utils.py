@@ -24,6 +24,9 @@ profile = addon.getAddonInfo('profile')
 icon_img = 'icon.png'
 fanart_img = 'fanart.jpg'
 
+def localStr(id):
+	return addon.getLocalizedString(id)
+
 def bold(text):
 	# return bold text
 	return '[B]' + text + '[/B]'
@@ -183,10 +186,10 @@ def createItem(url, label, **kwargs):
 		CM_items = []
 		# context menu for similar content
 		similar_link = plugin.base_url + '/similar/%s/%s/1' % (kwargs['id'], kwargs['mediatype'])
-		similar_item = ('Conteúdo similar', 'Container.Update(%s)' % (similar_link))
+		similar_item = (localStr(32014), 'Container.Update(%s)' % (similar_link))
 		CM_items.append(similar_item)
 		# context menu for original title search
-		title_item = ('Buscar com título original', 'RunPlugin(%s)' % (kwargs['real_title_search']))
+		title_item = (localStr(32015), 'RunPlugin(%s)' % (kwargs['real_title_search']))
 		CM_items.append(title_item)
 		# add context menu to ListItem
 		li.addContextMenuItems(CM_items)

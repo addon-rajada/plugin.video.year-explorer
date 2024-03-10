@@ -1,0 +1,99 @@
+# Kodi Media Center language file
+# Addon Name: Year Explorer
+# Addon id: plugin.video.year-explorer
+# Addon Provider: gbchr
+
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: This is a comment
+
+msgctxt "#32000"
+msgid "Search"
+msgstr ""
+
+msgctxt "#32001"
+msgid "Popular"
+msgstr ""
+
+msgctxt "#32002"
+msgid "Welcome to Year Explorer"
+msgstr ""
+
+msgctxt "#32003"
+msgid "Elementum/Jacktook/Torrest and Rajada are needed for Torrent search\n\nContact:\naddon.rajada@proton.me"
+msgstr ""
+
+msgctxt "#32004"
+msgid "Previous page"
+msgstr ""
+
+msgctxt "#32005"
+msgid "Next page"
+msgstr ""
+
+msgctxt "#32006"
+msgid "Elementum and Burst/Rajada are needed"
+msgstr ""
+
+msgctxt "#32007"
+msgid "Jacktook and Elementum/Torrest are needed"
+msgstr ""
+
+msgctxt "#32008"
+msgid "Torrest, Flix and Flix Rajada are needed"
+msgstr ""
+
+msgctxt "#32009"
+msgid "Failed to load movies"
+msgstr ""
+
+msgctxt "#32010"
+msgid "Failed to load Movies"
+msgstr ""
+
+msgctxt "#32011"
+msgid "Failed to load TV shows"
+msgstr ""
+
+msgctxt "#32012"
+msgid "Failed to load similar content"
+msgstr ""
+
+msgctxt "#32013"
+msgid "Failed to load recommended content"
+msgstr ""
+
+msgctxt "#32014"
+msgid "Similar content"
+msgstr ""
+
+msgctxt "#32015"
+msgid "Search with original title"
+msgstr ""
+
+msgctxt "#32016"
+msgid "API language"
+msgstr ""
+
+msgctxt "#32017"
+msgid "General"
+msgstr ""
+
+msgctxt "#32018"
+msgid "No IMDB"
+msgstr ""
+
+msgctxt "#32019"
+msgid "No TVDB"
+msgstr ""
+
+msgctxt "#32020"
+msgid ""
+msgstr ""
+

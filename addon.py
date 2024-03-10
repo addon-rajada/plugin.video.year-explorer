@@ -6,23 +6,21 @@ from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
 from datetime import datetime
 
 plugin = routing.Plugin()
-
-welcome_label = 'Bem-vindo ao Year Explorer'
-welcome_plot = 'Necessário Elementum e Rajada para realizar busca dos Torrents\n\nContato pelo email:\naddon.rajada@proton.me'
+FIRST_PAGE = 1
 
 @plugin.route('/')
 def index():
 	current_year = datetime.now().year
 	years = reversed(range(1894, current_year + 1))
-	utils.createWelcomeItem(welcome_label, welcome_plot, index)
-	utils.createFolder(list_popular, "Popular", [1], 'icon.png', "Popular", 'icon.png')
+	utils.createWelcomeItem(utils.localStr(32002), utils.localStr(32003), index)
+	utils.createFolder(list_popular, utils.localStr(32001), [FIRST_PAGE], utils.icon_img, utils.localStr(32001), utils.icon_img)
 	for item in years:
 		utils.createFolder(list_items,
 						str(item),
-						[item, 1],
-						'icon.png',
+						[item, FIRST_PAGE],
+						utils.icon_img,
 						str(item),
-						'icon.png')
+						utils.icon_img)
 	utils.set_container_type('albums')
 	utils.set_view('widelist')
 	utils.endDirectory()
@@ -33,9 +31,9 @@ def show_dialog(title, year, tmdb_id, mediatype, elementum_type = ''):
 	mediatype = 'tv' if mediatype == 'tvshow' else 'movie'
 	ext_ids = tmdb.get_external_ids(tmdb_id, mediatype)
 	try: imdb_id = ext_ids["imdb_id"]
-	except: imdb_id = 'No IMDB'
+	except: imdb_id = utils.localStr(32018)
 	try: tvdb_id = ext_ids['tvdb_id']
-	except: tvdb_id = 'No TVDB'
+	except: tvdb_id = utils.localStr(32019)
 
 	item_str = 'TMDB: %s[CR]IMDB: %s[CR]TVDB: %s' % (tmdb_id, imdb_id, tvdb_id)
 	players = dialog.create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, elementum_type)
@@ -62,8 +60,8 @@ def list_items(year, page):
 							mediatype = item['tipo'],
 							real_title_search = real_title_url )
 	if int(page) > 1:
-		utils.createFolder(list_items, 'Página anterior', [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_items, 'Próxima página', [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+		utils.createFolder(list_items, utils.localStr(32004), [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
+	utils.createFolder(list_items, utils.localStr(32005), [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
@@ -85,8 +83,8 @@ def list_similar(id, type, page):
 							mediatype = item['tipo'],
 							real_title_search = real_title_url )
 	if int(page) > 1:
-		utils.createFolder(list_similar, 'Página anterior', [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_similar, 'Próxima página', [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+		utils.createFolder(list_similar, utils.localStr(32004), [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
+	utils.createFolder(list_similar, utils.localStr(32005), [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
@@ -107,8 +105,8 @@ def list_popular(page):
 							mediatype = item['tipo'],
 							real_title_search = real_title_url )
 	if int(page) > 1:
-		utils.createFolder(list_popular, 'Página anterior', [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_popular, 'Próxima página', [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+		utils.createFolder(list_popular, utils.localStr(32004), [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
+	utils.createFolder(list_popular, utils.localStr(32005), [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()

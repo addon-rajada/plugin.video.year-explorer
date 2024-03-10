@@ -19,12 +19,12 @@ def get_trending(page = 1):
 	all = []
 	# movies
 	if m1 != None: all += parse_movies_result(m1)
-	else: utils.notify('Falha ao carregar filmes')
+	else: utils.notify(utils.localStr(32009))
 	if m2 != None: all += parse_movies_result(m2)
-	else: utils.notify('Falha ao Carregar Filmes')
+	else: utils.notify(utils.localStr(32010))
 	# tv shows
 	if s != None: all += parse_shows_result(s)
-	else: utils.notify('Falha ao carregar séries')
+	else: utils.notify(utils.localStr(32011))
 	return sorted_results(all)
 
 
@@ -38,13 +38,13 @@ def get_data_from_year(year, page = 1):
 
 	# movies
 	if m1 != None: all += parse_movies_result(m1)
-	else: utils.notify('Falha ao carregar filmes')
+	else: utils.notify(utils.localStr(32009))
 	if m2 != None: all += parse_movies_result(m2)
-	else: utils.notify('Falha ao Carregar Filmes')
+	else: utils.notify(utils.localStr(32010))
 
 	# tv shows
 	if s != None: all += parse_shows_result(s)
-	else: utils.notify('Falha ao carregar séries')
+	else: utils.notify(utils.localStr(32011))
 
 	return sorted_results(all)
 
@@ -56,11 +56,11 @@ def get_similar_content_data(id, mediatype, page = 1):
 
 	if mediatype == 'movie' and s != None: all += parse_movies_result(s)
 	elif mediatype == 'tvshow' and s != None: all += parse_shows_result(s)
-	else: utils.notify('Falha ao carregar conteúdo similar')
+	else: utils.notify(utils.localStr(32012))
 
 	if mediatype == 'movie' and r != None: all += parse_movies_result(r)
 	elif mediatype == 'tvshow' and r != None: all += parse_shows_result(r)
-	else: utils.notify('Falha ao carregar conteúdo recomendado')
+	else: utils.notify(utils.localStr(32013))
 
 	return sorted_results(all)
 

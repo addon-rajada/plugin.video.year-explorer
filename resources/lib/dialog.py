@@ -34,7 +34,7 @@ def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, eleme
 	return [
 		{
 			'label1':'Elementum',
-			'label2':'Necessário Elementum e Burst/Rajada',
+			'label2':utils.localStr(32006),
 			'title': title,
 			'icon': 'elementum_icon.png',
 			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
@@ -43,7 +43,7 @@ def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, eleme
 		},
 		{
 			'label1':'Jacktook',
-			'label2':'Necessário Jacktook e Elementum/Torrest',
+			'label2':utils.localStr(32007),
 			'title': title,
 			'icon': 'jacktook_icon.png',
 			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
@@ -52,7 +52,7 @@ def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, eleme
 		},
 		{
 			'label1':'Torrest',
-			'label2':'Necessário Torrest, Flix e Flix Rajada',
+			'label2':utils.localStr(32008),
 			'title': title,
 			'icon': 'torrest_icon.png',
 			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
