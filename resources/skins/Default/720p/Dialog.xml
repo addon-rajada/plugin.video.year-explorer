@@ -73,7 +73,7 @@
 			   <left>40</left>
 			   <top>90</top>
 			   <width>575</width>
-			   <height>80</height>
+			   <height>100</height>
 			   <font>font12</font>
 			   <colordiffuse>FFFFFFFF</colordiffuse>
 			   <textcolor>FFFFFFFF</textcolor>
@@ -83,7 +83,7 @@
 
 			<control id="32503" type="panel">
 				<left>33</left>
-				<top>180</top>
+				<top>200</top>
 				<width>575</width>
 				<height>390</height>
 				<onup>32503</onup>

@@ -94,6 +94,6 @@ msgid "No TVDB"
 msgstr ""
 
 msgctxt "#32020"
-msgid ""
+msgid "Title"
 msgstr ""
 

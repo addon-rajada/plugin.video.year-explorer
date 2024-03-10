@@ -36,7 +36,7 @@ def show_dialog(title, year, tmdb_id, mediatype, elementum_type):
 	try: tvdb_id = ext_ids['tvdb_id']
 	except: tvdb_id = utils.localStr(32019)
 
-	item_str = 'TMDB: %s[CR]IMDB: %s[CR]TVDB: %s' % (tmdb_id, imdb_id, tvdb_id)
+	item_str = '%s: %s[CR]TMDB: %s[CR]IMDB: %s[CR]TVDB: %s' % (utils.localStr(32020), title, tmdb_id, imdb_id, tvdb_id)
 	players = dialog.create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, elementum_type)
 
 	window = dialog.DialogSelect("Dialog.xml", utils.home, "Default", title = 'Year Explorer', items = players, item_info = item_str)
