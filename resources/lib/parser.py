@@ -12,10 +12,14 @@ def sorted_results(content):
 
 
 def get_trending(page = 1):
+	def thread_trending(id, type, page):
+		return (id, tmdb.GetTrending(type, page))
 	movie_page = int(page) * 2
-	m1 = tmdb.GetTrending('movie', movie_page - 1)
-	m2 = tmdb.GetTrending('movie', movie_page)
-	s = tmdb.GetTrending('tv', page)
+	all_requests = [('movie', movie_page - 1), ('movie', movie_page), ('tv', page)]
+	all_requests = utils.indexed_threadpool(thread_trending, all_requests, {'type':0, 'page':1})
+	m1 = all_requests[0]
+	m2 = all_requests[1]
+	s = all_requests[2]
 	all = []
 	# movies
 	if m1 != None: all += parse_movies_result(m1)
@@ -30,10 +34,14 @@ def get_trending(page = 1):
 
 
 def get_data_from_year(year, page = 1):
+	def thread_year(id, year, type, page):
+		return (id, tmdb.DiscoverByYear(year, type, page))
 	movie_page = int(page) * 2
-	m1 = tmdb.DiscoverByYear(year, 'movie', movie_page - 1)
-	m2 = tmdb.DiscoverByYear(year, 'movie', movie_page)
-	s = tmdb.DiscoverByYear(year, 'tv', page)
+	all_requests = [(year, 'movie', movie_page - 1), (year, 'movie', movie_page), (year, 'tv', page)]
+	all_requests = utils.indexed_threadpool(thread_year, all_requests, {'year':0, 'type':1, 'page':2})
+	m1 = all_requests[0]
+	m2 = all_requests[1]
+	s = all_requests[2]
 	all = []
 
 	# movies
@@ -50,8 +58,12 @@ def get_data_from_year(year, page = 1):
 
 
 def get_similar_content_data(id, mediatype, page = 1):
-	s = tmdb.GetSimilar(mediatype, id, 'similar', page)
-	r = tmdb.GetSimilar(mediatype, id, 'recommendations', page)
+	def thread_similar(id, media, tmdb_id, type, page):
+		return (id, tmdb.GetSimilar(media, tmdb_id, type, page))
+	all_requests = [(mediatype, id, 'similar', page), (mediatype, id, 'recommendations', page)]
+	all_requests = utils.indexed_threadpool(thread_similar, all_requests, {'media':0,'tmdb_id':1,'type':2,'page':3})
+	s = all_requests[0]
+	r = all_requests[1]
 	all = []
 
 	if mediatype == 'movie' and s != None: all += parse_movies_result(s)
@@ -65,8 +77,12 @@ def get_similar_content_data(id, mediatype, page = 1):
 	return sorted_results(all)
 
 def get_search_results(query, page = 1):
-	m = tmdb.QuerySearch('movie', query, page)
-	s = tmdb.QuerySearch('tv', query, page)
+	def thread_search(id, type, query, page):
+		return (id, tmdb.QuerySearch(type, query, page))
+	all_requests = [('movie', query, page), ('tv', query, page)]
+	all_requests = utils.indexed_threadpool(thread_search, all_requests, {'type':0, 'query':1, 'page':2})
+	m = all_requests[0]
+	s = all_requests[1]
 	all = []
 	if m != None: all += parse_movies_result(m)
 	else: utils.notify(utils.localStr(32009))
