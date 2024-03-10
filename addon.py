@@ -28,7 +28,7 @@ def index():
 	
 
 @plugin.route('/show_dialog/<title>/<year>/<tmdb_id>/<mediatype>/<elementum_type>')
-def show_dialog(title, year, tmdb_id, mediatype, elementum_type = ''):
+def show_dialog(title, year, tmdb_id, mediatype, elementum_type):
 	mediatype = 'tv' if mediatype == 'tvshow' else 'movie'
 	ext_ids = tmdb.get_external_ids(tmdb_id, mediatype)
 	try: imdb_id = ext_ids["imdb_id"]
@@ -50,7 +50,8 @@ def search(query, page):
 	if query == 'NO_QUERY_VALUE':
 		query = utils.keyboard('', utils.localStr(32000))
 		if query == None or query == '': return
-	for item in parser.get_search_results(query, page):
+	result = parser.get_search_results(query, page)
+	for item in result:
 		year = item['data'][0:4]
 		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
 		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
@@ -65,14 +66,16 @@ def search(query, page):
 							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(search, utils.localStr(32004), [query, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(search, utils.localStr(32005), [query, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	if len(result) > 0:
+		utils.createFolder(search, utils.localStr(32005), [query, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
 
 @plugin.route('/year/<year>/<page>')
 def list_items(year, page):
-	for item in parser.get_data_from_year(year, page):
+	result = parser.get_data_from_year(year, page)
+	for item in result:
 		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
 		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
 		utils.createItem(url,
@@ -86,7 +89,8 @@ def list_items(year, page):
 							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_items, utils.localStr(32004), [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_items, utils.localStr(32005), [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	if len(result) > 0:
+		utils.createFolder(list_items, utils.localStr(32005), [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
@@ -94,7 +98,8 @@ def list_items(year, page):
 
 @plugin.route('/similar/<id>/<type>/<page>')
 def list_similar(id, type, page):
-	for item in parser.get_similar_content_data(id, type, page):
+	result = parser.get_similar_content_data(id, type, page)
+	for item in result:
 		year = item['data'][0:4]
 		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
 		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
@@ -109,14 +114,16 @@ def list_similar(id, type, page):
 							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_similar, utils.localStr(32004), [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_similar, utils.localStr(32005), [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	if len(result) > 0:
+		utils.createFolder(list_similar, utils.localStr(32005), [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
 
 @plugin.route('/popular/<page>')
 def list_popular(page):
-	for item in parser.get_trending(page):
+	result = parser.get_trending(page)
+	for item in result:
 		year = item['data'][0:4]
 		url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
 		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
@@ -131,7 +138,8 @@ def list_popular(page):
 							real_title_search = real_title_url )
 	if int(page) > 1:
 		utils.createFolder(list_popular, utils.localStr(32004), [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
-	utils.createFolder(list_popular, utils.localStr(32005), [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	if len(result) > 0:
+		utils.createFolder(list_popular, utils.localStr(32005), [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
