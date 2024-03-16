@@ -90,6 +90,62 @@ def get_search_results(query, page = 1):
 	else: utils.notify(utils.localStr(32011))
 	return sorted_results(all)
 
+def get_show_seasons(tmdb_id):
+	s = tmdb.IdDetails(str(tmdb_id), 'tv')
+	try:
+		content = {}
+		content['numero_episodios'] = str(s['number_of_episodes'])
+		content['numero_temporadas'] = str(s['number_of_seasons'])
+		content['tipo'] = 'tvshow'
+		content['metodo_busca'] = 'search'
+		content['tmdb'] = str(s['id'])
+		content['titulo'] = s['name']
+		content['titulo_original'] = s['original_name']
+		# w500, w780, w1280, w1920, original
+		content['background'] = 'https://image.tmdb.org/t/p/w1280' + s['backdrop_path']
+		content['data'] = s['first_air_date']
+		seasons = []
+		for c in s['seasons']:
+			seasons.append({
+				'data': str(c['air_date']),
+				'episodios': str(c['episode_count']),
+				'id_temporada': str(c['id']),
+				'numero_temporada': str(c['season_number']),
+				'nome': c['name'],
+				'sinopse': utils.localStr(32021) % (str(c['air_date']),str(c['episode_count']),str(c['vote_average']),c['overview']),
+				'nota': str(c['vote_average']),
+				# w500, w780, original
+				'imagem': 'https://image.tmdb.org/t/p/w780' + str(c['poster_path'])
+			})
+		content['temporadas'] = seasons
+		return content
+	except Exception as e:
+		utils.log(e)
+		return {'temporadas': []}
+
+
+def get_season_episodes(tmdb_id, season):
+	e = tmdb.GetEpisodes(str(tmdb_id), season)
+	all = []
+	for ep in e['episodes']:
+		try:
+			all.append({
+				'tipo': 'tvshow',
+				'metodo_busca': 'search',
+				'data': str(ep['air_date']),
+				'episodio': str(ep['episode_number']),
+				'nome': 'S%sE%s - %s' % (ep['season_number'],ep['episode_number'],ep['name']),
+				'sinopse': utils.localStr(32024) % (str(ep['air_date']),ep['vote_average'],ep['vote_count'],str(ep['runtime']),ep['overview']),
+				'duracao': str(ep['runtime']),
+				'temporada': str(ep['season_number']),
+				# w92, w185, w300, original
+				'imagem': 'https://image.tmdb.org/t/p/original' + str(ep['still_path']),
+				'nota': str(ep['vote_average']),
+				'votos': str(ep['vote_count']),
+			})
+		except Exception as e: utils.log(e)
+	return all
+
 def parse_movies_result(json):
 	all = []
 	for r in json['results']:
@@ -97,10 +153,10 @@ def parse_movies_result(json):
 			all.append({
 				'tipo': 'movie',
 				'metodo_busca': 'search',
-				'tmdb': r['id'],
+				'tmdb': str(r['id']),
 				'titulo': r['title'],
 				'titulo_original': r['original_title'],
-				'sinopse': 'Filme\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['release_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
+				'sinopse': utils.localStr(32022) % (r['release_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
 				# w500, w780, original
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
 				# w500, w780, w1280, w1920, original
@@ -119,10 +175,10 @@ def parse_shows_result(json):
 			all.append({
 				'tipo': 'tvshow',
 				'metodo_busca': 'search',
-				'tmdb': r['id'],
+				'tmdb': str(r['id']),
 				'titulo': r['name'],
 				'titulo_original': r['original_name'],
-				'sinopse': 'Série\nAno: %s\nNota: %s (%s votos)\n\n%s' % (r['first_air_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
+				'sinopse': utils.localStr(32023) % (r['first_air_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
 				# w500, w780, original
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],
 				# w500, w780, w1280, w1920, original

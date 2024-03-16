@@ -97,3 +97,22 @@ msgctxt "#32020"
 msgid "Title"
 msgstr "Título"
 
+msgctxt "#32021"
+msgid "Air date: %s\nEpisodes: %s\nVote average: %s\n\n%s"
+msgstr "Estreia: %s\nEpisódios: %s\nNota: %s\n\n%s"
+
+msgctxt "#32022"
+msgid "Movie\nYear: %s\nVote average: %s (%s votes)\n\n%s"
+msgstr "Filme\nAno: %s\nNota: %s (%s votos)\n\n%s"
+
+msgctxt "#32023"
+msgid "TV Show\nYear: %s\nVote average: %s (%s votes)\n\n%s"
+msgstr "Série\nAno: %s\nNota: %s (%s votos)\n\n%s"
+
+msgctxt "#32024"
+msgid "Air date: %s\nVote average: %s (%s votes)\nRuntime: %s minutes\n\n%s"
+msgstr "Estreia: %s\nNota: %s (%s votos)\nDuração: %s minutos\n\n%s"
+
+msgctxt "#32025"
+msgid ""
+msgstr ""

@@ -11,10 +11,10 @@ API_key = 'bc96b19479c7db6c8ae805744d0bdfe2' # from umbrella
 find_url = 'https://api.themoviedb.org/3/find/%s?language=%s&api_key=%s&external_source=%s' % ('%s', lang, API_key, '%s')
 # https://api.themoviedb.org/3/find/tt0081505?api_key=bc96b19479c7db6c8ae805744d0bdfe2&external_source=imdb_id&language=pt-BR
 
-details_url = 'https://api.themoviedb.org/3/%s/%s?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
-# https://api.themoviedb.org/3/movie/tt0081505?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
-# https://api.themoviedb.org/3/tv/1402?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
-# https://api.themoviedb.org/3/person/3027?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
+details_url = 'https://api.themoviedb.org/3/%s/%s?api_key=%s&language=%s&append_to_response=credits,external_ids' % ('%s', '%s', API_key, lang)
+# https://api.themoviedb.org/3/movie/tt0081505?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR&append_to_response=credits,external_ids
+# https://api.themoviedb.org/3/tv/1402?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR&append_to_response=credits,external_ids
+# https://api.themoviedb.org/3/person/3027?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR&append_to_response=external_ids
 
 externalids_url = 'https://api.themoviedb.org/3/%s/%s/external_ids?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
 # https://api.themoviedb.org/3/movie/694/external_ids?api_key=bc96b19479c7db6c8ae805744d0bdfe2
@@ -36,6 +36,9 @@ trending_url = 'https://api.themoviedb.org/3/trending/%s/week?api_key=%s&page=%s
 search_url = 'https://api.themoviedb.org/3/search/%s?query=%s&api_key=%s&page=%s&language=%s&sort_by=%s' % ('%s', '%s', API_key, '%s', lang, '%s')
 # https://api.themoviedb.org/3/search/movie?query=o+iluminado&api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
 # https://api.themoviedb.org/3/search/tv?query=o+iluminado&api_key=bc96b19479c7db6c8ae805744d0bdfe2&page=1&language=pt-BR
+
+season_url = 'https://api.themoviedb.org/3/tv/%s/season/%s?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
+# https://api.themoviedb.org/3/tv/1402/season/1?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-br
 
 def get_request(url):
 	try:
@@ -132,6 +135,16 @@ def QuerySearch(type, query, page = 1):
 		sortBy = 'popularity.desc' # 'vote_count'
 		if type == 'tvshow': type = 'tv'
 		url = search_url % (type, query, page, sortBy)
+		result = get_request(url)
+		if not result: raise Exception()
+	except:
+		pass
+	return result
+
+def GetEpisodes(tmdb, season):
+	result = None
+	try:
+		url = season_url % (tmdb, season)
 		result = get_request(url)
 		if not result: raise Exception()
 	except:

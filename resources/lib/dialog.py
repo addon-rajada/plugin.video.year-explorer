@@ -30,7 +30,7 @@ KEY_CONTEXT_MENU = 117
 KEY_HOME = 159
 
 
-def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, elementum_type):
+def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, elementum_type, season, episode):
 	return [
 		{
 			'label1':'Elementum',
@@ -47,7 +47,7 @@ def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, eleme
 			'title': title,
 			'icon': 'jacktook_icon.png',
 			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
-			'url': utils.jacktook_url(mediatype, title, tmdb_id, imdb_id, tvdb_id),
+			'url': utils.jacktook_url(mediatype, title, tmdb_id, imdb_id, tvdb_id, season, episode),
 			'url_type': 'container'
 		},
 		{

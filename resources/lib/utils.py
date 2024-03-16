@@ -6,8 +6,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem, endOfDirectory
+import sys, base64
 
-import sys
 if sys.version_info[0] == 2:
 	from urllib import quote
 else:
@@ -64,6 +64,15 @@ def indexed_threadpool(function, data, func_args, max_threads = 16):
 			result = f.result()
 			final_result.append(result)
 	return [value[1] for value in sorted(final_result, key = lambda x: x[0])] # sort by id then remove it
+
+def base64_encode_url(value):
+    encoded = str(base64.b64encode(bytes(value, "utf-8")), 'utf-8')
+    return encoded.replace('=', '').replace('+', '-').replace('/', '_')
+
+def base64_decode_url(data):
+    value = data.replace('-', '+').replace('_', '/')
+    value += '=' * (len(value) % 4)
+    return str(base64.b64decode(value), 'utf-8') # urlsafe_
 
 def bold(text):
 	# return bold text
@@ -131,16 +140,16 @@ def torrest_url(title, year):
 	query = "%s+%s" % (title, year)
 	return 'plugin://plugin.video.flix/providers/play_query?query=%s' % query
 
-def jacktook_url(type, title, tmdb, imdb, tvdb):
+def jacktook_url(type, title, tmdb, imdb, tvdb, season = 1, episode = 1):
 	# ref: https://github.com/Sam-Max/plugin.video.jacktook/blob/main/resources/lib/navigation.py
 	if type == 'movie':
 		return f'plugin://plugin.video.jacktook/search?mode={type}&query={title}&ids={tmdb}%2C%20{tvdb}%2C%20{imdb}'
 	elif type == 'tv':
 		episode_name = title.replace(',',' ')
-		episode_num = '1'
-		season_num = '1'
-		#extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}'
-		extra = f'&tvdata={episode_num}%2C%20{season_num}'
+		episode_num = str(episode)
+		season_num = str(season)
+		extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}'
+		#extra = f'&tvdata={episode_num}%2C%20{season_num}'
 		return f'plugin://plugin.video.jacktook/search?mode={type}&query={title}&ids={tmdb}%2C%20{tvdb}%2C%20{imdb}' + extra
 
 def elementum_url(type, title, year = '', id = ''):
@@ -226,6 +235,9 @@ def createItem(url, label, **kwargs):
 		similar_link = plugin.base_url + '/similar/%s/%s/1' % (kwargs['id'], kwargs['mediatype'])
 		similar_item = (localStr(32014), 'Container.Update(%s)' % (similar_link))
 		CM_items.append(similar_item)
+		# context menu for title search
+		title_search = (localStr(32000), 'RunPlugin(%s)' % (kwargs['title_search']))
+		CM_items.append(title_search)
 		# context menu for original title search
 		title_item = (localStr(32015), 'RunPlugin(%s)' % (kwargs['real_title_search']))
 		CM_items.append(title_item)
@@ -233,8 +245,12 @@ def createItem(url, label, **kwargs):
 		li.addContextMenuItems(CM_items)
 
 	except Exception as e:
+		import traceback
+		log(traceback.format_exc())
 		log(e)
-	addDirectoryItem(plugin.handle, url, li, isFolder = False)
+
+	isFolder = kwargs['isFolder'] if 'isFolder' in kwargs else False
+	addDirectoryItem(plugin.handle, url, li, isFolder = isFolder)
 
 def endDirectory():
 	endOfDirectory(plugin.handle, succeeded=True, cacheToDisc=True)
