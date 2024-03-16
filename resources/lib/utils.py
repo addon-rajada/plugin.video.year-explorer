@@ -34,6 +34,12 @@ def keyboard(placeholder, title):
 	if kb.isConfirmed(): return kb.getText()
 	else: return None
 
+def get_kodi_version():
+	full_version_info = xbmc.getInfoLabel('System.BuildVersion')
+	baseversion = full_version_info.split(".")
+	intbase = int(baseversion[0])
+	return intbase
+
 def indexed_threadpool(function, data, func_args, max_threads = 16):
 	"""
 		function MUST have following signature -> (id, arg1, arg2, ...) and return -> (id, ...)

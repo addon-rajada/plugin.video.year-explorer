@@ -109,12 +109,15 @@ class DialogSelect(xbmcgui.WindowXMLDialog):
 		#item.setContentLookup(False)
         #item.setProperty('ForceResolvePlugin', 'true')
         item.setArt({ 'icon': os.path.join(ADDON_PATH, "resources", "media", itemdata['icon']) })
-        info_tag = item.getVideoInfoTag()
-        info_tag.setTitle(itemdata['title'])
-        info_tag.setFilenameAndPath(itemdata['url'])
-        info_tag.setMediaType("video")
-        info_tag.setIMDBNumber(imdb)
-        info_tag.setUniqueIDs({"imdb": str(imdb), "tmdb": str(tmdb), "tvdb": str(tvdb)}, 'imdb')
+        if utils.get_kodi_version() <= 19:
+            item.setUniqueIDs({"imdb": str(imdb), "tmdb": str(tmdb), "tvdb": str(tvdb)}, 'imdb')
+        if utils.get_kodi_version() >= 20:
+            info_tag = item.getVideoInfoTag()
+            info_tag.setTitle(itemdata['title'])
+            info_tag.setFilenameAndPath(itemdata['url'])
+            info_tag.setMediaType("video")
+            info_tag.setIMDBNumber(imdb)
+            info_tag.setUniqueIDs({"imdb": str(imdb), "tmdb": str(tmdb), "tvdb": str(tvdb)}, 'imdb')
         listControl.addItem(item)
         self.count += 1
 
