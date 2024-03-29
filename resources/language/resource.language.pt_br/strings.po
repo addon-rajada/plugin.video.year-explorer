@@ -130,8 +130,8 @@ msgid "Oscar Winners and Nominees"
 msgstr "Vencedores e Indicados do Oscar"
 
 msgctxt "#32029"
-msgid ""
-msgstr ""
+msgid "Haru and Elementum/Torrest are needed"
+msgstr "Necessário Haru e Elementum/Torrest"
 
 msgctxt "#32030"
 msgid ""

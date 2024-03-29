@@ -183,6 +183,10 @@ def elementum_url(type, title, year = '', id = ''):
 		url = "plugin://plugin.video.elementum/search?q=" + quote(query)
 	return url
 
+def haru_url(title):
+	# ref: https://github.com/pikdum/plugin.video.haru/blob/master/resources/lib/nyaa.py
+	return f'plugin://plugin.video.haru/?action=nyaa_search_results&text={quote(title)}&category=1_0&sort=seeders&order=desc'
+
 def play(url, mode = 'resolved', li = None):
 	if li == None:
 		li = xbmcgui.ListItem(path=url)

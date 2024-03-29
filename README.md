@@ -2,4 +2,4 @@
 
 - Explore filmes e séries de acordo com ano de lançamento
 - Busca de conteúdo similar através do menu de contexto
-- Compatível com Elementum
+- Compatível com Elementum, Jacktook, Torrest e Haru

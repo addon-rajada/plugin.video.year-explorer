@@ -58,6 +58,15 @@ def create_players_dict(title, year, tmdb_id, imdb_id, tvdb_id, mediatype, eleme
 			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
 			'url': utils.torrest_url(title, year),
 			'url_type': 'player'
+		},
+		{
+			'label1':'Haru',
+			'label2':utils.localStr(32029),
+			'title': title,
+			'icon': 'haru_icon.png',
+			'imdb':imdb_id, 'tmdb':tmdb_id, 'tvdb':tvdb_id,
+			'url': utils.haru_url(title),
+			'url_type': 'container'
 		}
 	]
 

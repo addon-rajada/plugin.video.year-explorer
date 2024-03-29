@@ -4,7 +4,7 @@
 	<controls>
 		<control type="group">
 			<left>320</left>
-			<top>120</top>
+			<top>90</top>
 			<animation reversible="false" type="WindowOpen">
 				<effect center="640,360" delay="400" easing="out" end="100" start="80" time="200" tween="back" type="zoom" />
 				<effect delay="400" end="100" start="0" time="200" type="fade" />
@@ -16,7 +16,7 @@
 			
 			<control type="image">
 				<width>640</width>
-				<height>480</height>
+				<height>540</height>
 				<texture colordiffuse="cc151515">window_white.png</texture>
 			</control>
 			
@@ -24,7 +24,7 @@
 				<left>15</left>
 				<top>20</top>
 				<width>610</width>
-				<height>440</height>
+				<height>500</height>
 				<texture colordiffuse="fa000000">window_white.png</texture>
 			</control>
 
