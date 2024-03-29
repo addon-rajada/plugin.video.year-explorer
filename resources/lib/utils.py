@@ -138,6 +138,15 @@ def set_view(name):
 	xbmc.executebuiltin('Container.SetViewMode(%s)' % (views_dict[name]))
 	#	xbmc.sleep(10)
 
+def add_ep_zero(ep):
+	if int(ep) <= 9: return '0%s' % ep
+	return ep
+
+def remove_dict_duplicates(array):
+	res_list = [i for n, i in enumerate(array)
+				if i not in array[:n]]
+	return res_list
+
 def youtube_url(id):
 	return 'plugin://plugin.video.youtube/play/?video_id=' + id + '&incognito=true'
 
@@ -187,7 +196,7 @@ def play(url, mode = 'resolved', li = None):
 	elif mode == 'player':
 		xbmc.Player().play(url, li)
 
-def createFolder(function, label, arguments_list, image = icon_img, plot = '', thumb = icon_img):
+def createFolder(function, label, arguments_list, image = icon_img, plot = '', thumb = icon_img, cm_items = []):
 	# create folder linked to some function and given arguments
 	li = ListItem(bold(label))
 	li.setArt({
@@ -198,6 +207,7 @@ def createFolder(function, label, arguments_list, image = icon_img, plot = '', t
 		"plot": bold(plot)
 	})
 	li.setProperty("fanart_image", img(fanart_img))
+	if len(cm_items) > 0: li.addContextMenuItems(cm_items)
 	addDirectoryItem(plugin.handle, plugin.url_for(function, *arguments_list), li, True)
 
 def createWelcomeItem(message, plot, entrypoint_function):

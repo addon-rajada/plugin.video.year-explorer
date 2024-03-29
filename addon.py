@@ -16,12 +16,19 @@ def index():
 	utils.createFolder(search, utils.localStr(32000), ['NO_QUERY_VALUE', FIRST_PAGE], utils.icon_img, utils.localStr(32000), utils.icon_img)
 	utils.createFolder(list_popular, utils.localStr(32001), [FIRST_PAGE], utils.icon_img, utils.localStr(32001), utils.icon_img)
 	for item in years:
+		# context menu items
+		item_cm = []
+		if item > 1928: # first oscar at 1929
+			item_cm.append( (utils.localStr(32027), 'Container.Update(%s)' % plugin.url_for(oscar, str(item), 'true') ) )
+			item_cm.append( (utils.localStr(32028), 'Container.Update(%s)' % plugin.url_for(oscar, str(item), 'false') ) )
+		# list item
 		utils.createFolder(list_items,
 						str(item),
 						[item, FIRST_PAGE],
 						utils.icon_img,
 						str(item),
-						utils.icon_img)
+						utils.icon_img,
+						item_cm )
 	utils.set_container_type('albums')
 	utils.set_view('widelist')
 	utils.endDirectory()
@@ -31,7 +38,8 @@ def index():
 @plugin.route('/show_dialog/<title>/<year>/<tmdb_id>/<mediatype>/<elementum_type>')
 def show_dialog(title, year, tmdb_id, mediatype, elementum_type, season = 1, episode = 1):
 	mediatype = 'tv' if mediatype == 'tvshow' else 'movie'
-	ext_ids = tmdb.get_external_ids(tmdb_id, mediatype)
+	try: ext_ids = tmdb.get_external_ids(tmdb_id, mediatype)
+	except: ext_ids = {}
 	try: imdb_id = ext_ids["imdb_id"]
 	except: imdb_id = utils.localStr(32018)
 	try: tvdb_id = ext_ids['tvdb_id']
@@ -73,6 +81,28 @@ def search(query, page):
 		utils.createFolder(search, utils.localStr(32004), [query, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	if len(result) > 0:
 		utils.createFolder(search, utils.localStr(32005), [query, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
+	utils.set_container_type('albums')
+	utils.set_view('infowall')
+	utils.endDirectory()
+
+@plugin.route('/oscar/<year>/<only_winners>')
+def oscar(year, only_winners):
+	result = parser.get_oscars(year, only_winners)
+	for item in result:
+		year = item['data'][0:4]
+		title_url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		real_title_url = plugin.url_for(show_dialog, item['titulo_original'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
+		utils.createItem(title_url,
+							item['titulo'],
+							image = item['imagem'],
+							plot = item['sinopse'],
+							fanart = item['background'],
+							current_year = year,
+							id = item['tmdb'],
+							mediatype = item['tipo'],
+							title_search = title_url,
+							real_title_search = real_title_url,
+							isFolder = False )
 	utils.set_container_type('albums')
 	utils.set_view('infowall')
 	utils.endDirectory()
@@ -167,7 +197,7 @@ def list_seasons(tmdb_id):
 	for temporada in item['temporadas']:
 		year = item['data'][0:4]
 		title = '%s %s' % (item['titulo'], temporada['nome'])
-		real_title = '%s S%s' % (item['titulo_original'], temporada['numero_temporada'])
+		real_title = '%s S%s' % (item['titulo_original'], utils.add_ep_zero(temporada['numero_temporada']))
 		title_url = plugin.url_for(show_dialog, title, year, item['tmdb'], item['tipo'], item['metodo_busca'], temporada['numero_temporada'])
 		real_title_url = plugin.url_for(show_dialog, real_title, year, item['tmdb'], item['tipo'], item['metodo_busca'], temporada['numero_temporada'])
 		url = plugin.url_for(list_episodes, item['tmdb'], temporada['numero_temporada'], title, real_title, utils.base64_encode_url(item['background']))
@@ -194,7 +224,7 @@ def list_episodes(tmdb_id, season, title, original_title, background):
 	for item in episodes:
 		year = item['data'][0:4]
 		title_url = plugin.url_for(show_dialog, title, year, tmdb_id, item['tipo'], item['metodo_busca'], item['temporada'], item['episodio'])
-		real_title_url = plugin.url_for(show_dialog, original_title + 'E%s' % item['episodio'], year, tmdb_id, item['tipo'], item['metodo_busca'], item['temporada'], item['episodio'])
+		real_title_url = plugin.url_for(show_dialog, original_title + 'E%s' % utils.add_ep_zero(item['episodio']), year, tmdb_id, item['tipo'], item['metodo_busca'], item['temporada'], item['episodio'])
 		utils.createItem(title_url,
 							item['nome'],
 							image = item['imagem'],

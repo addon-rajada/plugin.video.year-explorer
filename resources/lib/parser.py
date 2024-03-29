@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2023 gbchr
 
-from resources.lib import utils, tmdb
+from resources.lib import utils, tmdb, oscar
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
 from math import pow, sqrt
 
@@ -10,6 +10,11 @@ def sorted_results(content):
 	# float(r['nota']) * float(r['votos'])
 	return sorted(content, key = lambda r: pow(float(r['nota']), 2) * sqrt(float(r['votos'])), reverse=True)
 
+def get_oscars(year, only_winners = 'true'):
+	if only_winners == 'true': result = oscar.winners(year)
+	else: result = oscar.winners_and_nominees(year)
+	all = parse_movies_result({'results': result})
+	return sorted_results(all)
 
 def get_trending(page = 1):
 	def thread_trending(id, type, page):
@@ -74,7 +79,7 @@ def get_similar_content_data(id, mediatype, page = 1):
 	elif mediatype == 'tvshow' and r != None: all += parse_shows_result(r)
 	else: utils.notify(utils.localStr(32013))
 
-	return sorted_results(all)
+	return sorted_results(utils.remove_dict_duplicates(all))
 
 def get_search_results(query, page = 1):
 	def thread_search(id, type, query, page):
@@ -134,7 +139,7 @@ def get_season_episodes(tmdb_id, season):
 				'metodo_busca': 'search',
 				'data': str(ep['air_date']),
 				'episodio': str(ep['episode_number']),
-				'nome': 'S%sE%s - %s' % (ep['season_number'],ep['episode_number'],ep['name']),
+				'nome': 'S%sE%s - %s' % (utils.add_ep_zero(ep['season_number']),utils.add_ep_zero(ep['episode_number']),ep['name']),
 				'sinopse': utils.localStr(32024) % (str(ep['air_date']),ep['vote_average'],ep['vote_count'],str(ep['runtime']),ep['overview']),
 				'duracao': str(ep['runtime']),
 				'temporada': str(ep['season_number']),

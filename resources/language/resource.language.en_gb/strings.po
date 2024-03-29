@@ -114,5 +114,25 @@ msgid "Air date: %s\nVote average: %s (%s votes)\nRuntime: %s minutes\n\n%s"
 msgstr ""
 
 msgctxt "#32025"
+msgid "Winner"
+msgstr ""
+
+msgctxt "#32026"
+msgid "Nominee"
+msgstr ""
+
+msgctxt "#32027"
+msgid "Oscar Winners"
+msgstr ""
+
+msgctxt "#32028"
+msgid "Oscar Winners and Nominees"
+msgstr ""
+
+msgctxt "#32029"
+msgid ""
+msgstr ""
+
+msgctxt "#32030"
 msgid ""
 msgstr ""

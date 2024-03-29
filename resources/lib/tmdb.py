@@ -40,11 +40,11 @@ search_url = 'https://api.themoviedb.org/3/search/%s?query=%s&api_key=%s&page=%s
 season_url = 'https://api.themoviedb.org/3/tv/%s/season/%s?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
 # https://api.themoviedb.org/3/tv/1402/season/1?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-br
 
-def get_request(url):
+def get_request(url, timeout = 10):
 	try:
-		try: response = requests.get(url)
+		try: response = requests.get(url, timeout=timeout)
 		except requests.exceptions.SSLError:
-			response = requests.get(url, verify=False)
+			response = requests.get(url, verify=False, timeout=timeout)
 	except requests.exceptions.ConnectionError:
 		xbmcgui.Dialog().notification(message="Connection Error")
 	if '200' in str(response):
@@ -53,7 +53,7 @@ def get_request(url):
 		throttleTime = response.headers['Retry-After']
 		#xbmcgui.Dialog().notification(heading='TMDb', message='TMDB Throttling Applied, Sleeping for %s seconds' % throttleTime) # error
 		#xbmc.sleep((int(throttleTime) + 1) * 1000)
-		return get_request(url)
+		return get_request(url, timeout=timeout)
 	else:
 		return None
 
