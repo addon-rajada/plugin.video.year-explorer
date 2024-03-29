@@ -29,7 +29,7 @@ def index():
 						str(item),
 						utils.icon_img,
 						item_cm )
-	utils.set_container_type('albums')
+	utils.set_container_type(utils.get_setting('container_type'))
 	utils.set_view('widelist')
 	utils.endDirectory()
 	
@@ -81,8 +81,8 @@ def search(query, page):
 		utils.createFolder(search, utils.localStr(32004), [query, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	if len(result) > 0:
 		utils.createFolder(search, utils.localStr(32005), [query, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
-	utils.set_container_type('albums')
-	utils.set_view('infowall')
+	utils.set_container_type(utils.get_setting('container_type'))
+	utils.set_view(utils.get_setting('view_mode'))
 	utils.endDirectory()
 
 @plugin.route('/oscar/<year>/<only_winners>')
@@ -103,8 +103,8 @@ def oscar(year, only_winners):
 							title_search = title_url,
 							real_title_search = real_title_url,
 							isFolder = False )
-	utils.set_container_type('albums')
-	utils.set_view('infowall')
+	utils.set_container_type(utils.get_setting('container_type'))
+	utils.set_view(utils.get_setting('view_mode'))
 	utils.endDirectory()
 
 @plugin.route('/year/<year>/<page>')
@@ -130,8 +130,8 @@ def list_items(year, page):
 		utils.createFolder(list_items, utils.localStr(32004), [year, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	if len(result) > 0:
 		utils.createFolder(list_items, utils.localStr(32005), [year, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
-	utils.set_container_type('albums')
-	utils.set_view('infowall')
+	utils.set_container_type(utils.get_setting('container_type'))
+	utils.set_view(utils.get_setting('view_mode'))
 	utils.endDirectory()
 
 
@@ -159,8 +159,8 @@ def list_similar(id, type, page):
 		utils.createFolder(list_similar, utils.localStr(32004), [id, type, int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	if len(result) > 0:
 		utils.createFolder(list_similar, utils.localStr(32005), [id, type, int(page) + 1], 'nextpage.png', "", 'nextpage.png')
-	utils.set_container_type('albums')
-	utils.set_view('infowall')
+	utils.set_container_type(utils.get_setting('container_type'))
+	utils.set_view(utils.get_setting('view_mode'))
 	utils.endDirectory()
 
 @plugin.route('/popular/<page>')
@@ -187,8 +187,8 @@ def list_popular(page):
 		utils.createFolder(list_popular, utils.localStr(32004), [int(page) - 1], 'previouspage.png', "", 'previouspage.png')
 	if len(result) > 0:
 		utils.createFolder(list_popular, utils.localStr(32005), [int(page) + 1], 'nextpage.png', "", 'nextpage.png')
-	utils.set_container_type('albums')
-	utils.set_view('infowall')
+	utils.set_container_type(utils.get_setting('container_type'))
+	utils.set_view(utils.get_setting('view_mode'))
 	utils.endDirectory()
 
 @plugin.route('/list_seasons/<tmdb_id>')
@@ -212,7 +212,7 @@ def list_seasons(tmdb_id):
 							title_search = title_url,
 							real_title_search = real_title_url,
 							isFolder = True )
-	utils.set_container_type('albums')
+	utils.set_container_type(utils.get_setting('container_type'))
 	utils.set_view('widelist')
 	utils.endDirectory()
 
@@ -235,7 +235,7 @@ def list_episodes(tmdb_id, season, title, original_title, background):
 							mediatype = item['tipo'],
 							title_search = title_url,
 							real_title_search = real_title_url )
-	utils.set_container_type('albums')
+	utils.set_container_type(utils.get_setting('container_type'))
 	utils.set_view('widelist')
 	utils.endDirectory()
 

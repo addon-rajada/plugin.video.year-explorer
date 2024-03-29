@@ -2,5 +2,7 @@
 <settings>
     <category label="32017">
         <setting label="32016" id="idioma" type="labelenum" values="pt-BR|pt-PT|en-US|es-ES|es-MX|es-AR" default="pt-BR" />
+		<setting label="32030" id="container_type" type="labelenum" values="Albums|Movies|Videos" default="Albums" />
+		<setting label="32031" id="view_mode" type="labelenum" values="list|poster|iconwall|shift|infowall|widelist|wall|banner|fanart" default="infowall" />
     </category>
 </settings>

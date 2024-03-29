@@ -28,6 +28,9 @@ fanart_img = 'fanart.jpg'
 def localStr(id):
 	return addon.getLocalizedString(id)
 
+def get_setting(key):
+	return addon.getSetting(key)
+
 def keyboard(placeholder, title):
 	kb = xbmc.Keyboard(placeholder, title)
 	kb.doModal()

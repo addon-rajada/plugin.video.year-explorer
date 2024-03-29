@@ -26,8 +26,8 @@ msgid "Welcome to Year Explorer"
 msgstr "Bem-vindo ao Year Explorer"
 
 msgctxt "#32003"
-msgid "Elementum/Jacktook/Torrest and Rajada are needed for Torrent search\n\nContact:\naddon.rajada@proton.me"
-msgstr "Necessário Elementum/Jacktook/Torrest e Rajada para realizar busca dos Torrents\n\nContato pelo email:\naddon.rajada@proton.me"
+msgid "Elementum/Jacktook/Torrest/Haru and Rajada are needed for Torrent search\n\nContact:\naddon.rajada@proton.me"
+msgstr "Necessário Elementum/Jacktook/Torrest/Haru e Rajada para realizar busca dos Torrents\n\nContato pelo email:\naddon.rajada@proton.me"
 
 msgctxt "#32004"
 msgid "Previous page"
@@ -134,5 +134,17 @@ msgid "Haru and Elementum/Torrest are needed"
 msgstr "Necessário Haru e Elementum/Torrest"
 
 msgctxt "#32030"
+msgid "Container Content Type"
+msgstr "Tipo de Conteúdo do Container"
+
+msgctxt "#32031"
+msgid "View Mode"
+msgstr "Modo de Visualização"
+
+msgctxt "#32032"
+msgid ""
+msgstr ""
+
+msgctxt "#32033"
 msgid ""
 msgstr ""
