@@ -37,6 +37,25 @@ def get_trending(page = 1):
 	return sorted_results(all)
 
 
+def get_top_rated(page = 1):
+	def thread_top(id, type, page):
+		return (id, tmdb.TopRated(type, page))
+	movie_page = int(page) * 2
+	all_requests = [('movie', movie_page - 1), ('movie', movie_page), ('tv', page)]
+	all_requests = utils.indexed_threadpool(thread_top, all_requests, {'type':0, 'page':1})
+	m1 = all_requests[0]
+	m2 = all_requests[1]
+	s = all_requests[2]
+	all = []
+	# movies
+	if m1 != None: all += parse_movies_result(m1)
+	else: utils.notify(utils.localStr(32009))
+	if m2 != None: all += parse_movies_result(m2)
+	else: utils.notify(utils.localStr(32010))
+	# tv shows
+	if s != None: all += parse_shows_result(s)
+	else: utils.notify(utils.localStr(32011))
+	return sorted_results(all)
 
 def get_data_from_year(year, page = 1):
 	def thread_year(id, year, type, page):
@@ -48,17 +67,14 @@ def get_data_from_year(year, page = 1):
 	m2 = all_requests[1]
 	s = all_requests[2]
 	all = []
-
 	# movies
 	if m1 != None: all += parse_movies_result(m1)
 	else: utils.notify(utils.localStr(32009))
 	if m2 != None: all += parse_movies_result(m2)
 	else: utils.notify(utils.localStr(32010))
-
 	# tv shows
 	if s != None: all += parse_shows_result(s)
 	else: utils.notify(utils.localStr(32011))
-
 	return sorted_results(all)
 
 

@@ -142,9 +142,37 @@ msgid "View Mode"
 msgstr ""
 
 msgctxt "#32032"
-msgid ""
+msgid "Top Rated"
 msgstr ""
 
 msgctxt "#32033"
+msgid "Jacktook Version"
+msgstr ""
+
+msgctxt "#32034"
+msgid "English Title"
+msgstr ""
+
+msgctxt "#32035"
+msgid "Japanese Title"
+msgstr ""
+
+msgctxt "#32036"
+msgid ""
+msgstr ""
+
+msgctxt "#32037"
+msgid ""
+msgstr ""
+
+msgctxt "#32038"
+msgid ""
+msgstr ""
+
+msgctxt "#32039"
+msgid ""
+msgstr ""
+
+msgctxt "#32040"
 msgid ""
 msgstr ""

@@ -6,7 +6,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon, xbmcvfs
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem, endOfDirectory
-import sys, base64
+import sys, base64, re, os
+
+try: from xbmcvfs import translatePath
+except ImportError: from xbmc import translatePath
 
 if sys.version_info[0] == 2:
 	from urllib import quote
@@ -25,6 +28,13 @@ profile = addon.getAddonInfo('profile')
 icon_img = 'icon.png'
 fanart_img = 'fanart.jpg'
 
+last_query_file = 'last_query.txt'
+addon_data = 'special://home/userdata/addon_data/plugin.video.year-explorer'
+last_query_location = translatePath(os.path.join(addon_data, last_query_file))
+
+if not os.path.exists(translatePath(addon_data)):
+	os.makedirs(translatePath(addon_data)) # create addon data folder if not exists
+
 def localStr(id):
 	return addon.getLocalizedString(id)
 
@@ -36,6 +46,21 @@ def keyboard(placeholder, title):
 	kb.doModal()
 	if kb.isConfirmed(): return kb.getText()
 	else: return None
+
+def read_file(filename, mode = 'r'):
+	with open(filename, mode) as f:
+		return f.read()
+
+def write_file(filename, content, mode = 'w'):
+	with open(filename, mode) as f:
+		f.write(content)
+
+def read_query():
+	if not os.path.exists(last_query_location): return ''
+	else: return read_file(last_query_location)
+
+def save_query(query):
+	write_file(last_query_location, query)
 
 def get_kodi_version():
 	full_version_info = xbmc.getInfoLabel('System.BuildVersion')
@@ -145,6 +170,20 @@ def add_ep_zero(ep):
 	if int(ep) <= 9: return '0%s' % ep
 	return ep
 
+def remove_ep_zero(ep):
+	ep = str(ep)
+	if len(ep) > 1 and ep[0] == '0': return ep[1:]
+	return int(ep)
+
+def is_japanese(text):
+	# ref: https://gist.github.com/ryanmcgrath/982242
+	# ref: https://gist.github.com/terrancesnyder/1345094
+	pattern = r'[\u3000-\u303F]|[\u3040-\u309F]|[\u30A0-\u30FF]|[\uFF00-\uFFEF]|[\u4E00-\u9FAF]|[\u2605-\u2606]|[\u2190-\u2195]|\u203B'
+	#pattern = r'([一-龯])|([ぁ-んァ-ン])'
+	matches = re.findall(pattern, text, re.M)
+	if len(matches) > 0: return True
+	return False
+
 def remove_dict_duplicates(array):
 	res_list = [i for n, i in enumerate(array)
 				if i not in array[:n]]
@@ -166,8 +205,15 @@ def jacktook_url(type, title, tmdb, imdb, tvdb, season = 1, episode = 1):
 		episode_name = title.replace(',',' ')
 		episode_num = str(episode)
 		season_num = str(season)
-		extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}'
-		#extra = f'&tvdata={episode_num}%2C%20{season_num}'
+
+		extra = ''
+		if get_setting('jacktook_version') == '0.2.1':
+			extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}' # default is 0.2.1
+		elif get_setting('jacktook_version') == '0.2.2':
+			extra = f'&tv_data={episode_name}%2C%20{episode_num}%2C%20{season_num}' # 0.2.2
+		elif get_setting('jacktook_version') == '< 0.2.1':
+			extra = f'&tvdata={episode_num}%2C%20{season_num}' # < 0.2.1
+
 		return f'plugin://plugin.video.jacktook/search?mode={type}&query={title}&ids={tmdb}%2C%20{tvdb}%2C%20{imdb}' + extra
 
 def elementum_url(type, title, year = '', id = ''):

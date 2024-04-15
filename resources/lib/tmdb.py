@@ -40,6 +40,9 @@ search_url = 'https://api.themoviedb.org/3/search/%s?query=%s&api_key=%s&page=%s
 season_url = 'https://api.themoviedb.org/3/tv/%s/season/%s?api_key=%s&language=%s' % ('%s', '%s', API_key, lang)
 # https://api.themoviedb.org/3/tv/1402/season/1?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-br
 
+top_url = 'https://api.themoviedb.org/3/%s/top_rated?api_key=%s&language=%s&page=%s' % ('%s', API_key, lang, '%s')
+# https://api.themoviedb.org/3/movie/top_rated?api_key=bc96b19479c7db6c8ae805744d0bdfe2&language=pt-BR
+
 def get_request(url, timeout = 10):
 	try:
 		try: response = requests.get(url, timeout=timeout)
@@ -72,11 +75,12 @@ def IdLookup(imdb, mediatype):
 		pass
 	return result
 
-def IdDetails(imdb, mediatype):
+def IdDetails(imdb, mediatype, force_english_lang  = False):
 	result = None
 	if not imdb: return result
 	try:
 		url = details_url % (mediatype, imdb)
+		if force_english_lang: url += '&language=en'
 		result = get_request(url)
 		if not result: raise Exception()
 	except:
@@ -127,6 +131,16 @@ def GetTrending(type, page = 1):
 		if not result: raise Exception()
 	except:
 		pass
+	return result
+
+def TopRated(type, page = 1):
+	result = None
+	try:
+		if type == 'tvshow': type = 'tv'
+		url = top_url % (type, page)
+		result = get_request(url)
+		if not result: raise Exception()
+	except: pass
 	return result
 
 def QuerySearch(type, query, page = 1):
