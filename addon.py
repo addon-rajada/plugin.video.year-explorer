@@ -72,7 +72,8 @@ def make_default_directory(result,
 							next_page_args = [],
 							view = utils.get_setting('view_mode'),
 							create_previous_page = True,
-							create_next_page = True ):
+							create_next_page = True,
+							custom_title = False ):
 	for item in result:
 		year = item['data'][0:4]
 		title_url = plugin.url_for(show_dialog, item['titulo'], year, item['tmdb'], item['tipo'], item['metodo_busca'])
@@ -80,7 +81,7 @@ def make_default_directory(result,
 		url = title_url if item['tipo'] == 'movie' else plugin.url_for(list_seasons, item['tmdb'])
 		isFolder = False if item['tipo'] == 'movie' else True
 		utils.createItem(url,
-							item['titulo'],
+							item['titulo_customizado'] if custom_title else item['titulo'],
 							image = item['imagem'],
 							plot = item['sinopse'],
 							fanart = item['background'],
@@ -112,7 +113,7 @@ def search(query, page):
 @plugin.route('/oscar/<year>/<only_winners>')
 def oscar(year, only_winners):
 	result = parser.get_oscars(year, only_winners)
-	make_default_directory(result, oscar, create_next_page=False, create_previous_page=False)
+	make_default_directory(result, oscar, create_next_page=False, create_previous_page=False, custom_title=True)
 
 @plugin.route('/top_rated/<page>')
 def top_rated(page):

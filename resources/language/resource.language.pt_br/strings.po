@@ -42,8 +42,8 @@ msgid "Elementum and Burst/Rajada are needed"
 msgstr "Necessário Elementum e Burst/Rajada"
 
 msgctxt "#32007"
-msgid "Jacktook and Elementum/Torrest are needed"
-msgstr "Necessário Jacktook e Elementum/Torrest"
+msgid "Jacktook and Elementum/Torrest/JackTorr are needed"
+msgstr "Necessário Jacktook e Elementum/Torrest/JackTorr"
 
 msgctxt "#32008"
 msgid "Torrest, Flix and Flix Rajada are needed"

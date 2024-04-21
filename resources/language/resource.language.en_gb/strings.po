@@ -42,7 +42,7 @@ msgid "Elementum and Burst/Rajada are needed"
 msgstr ""
 
 msgctxt "#32007"
-msgid "Jacktook and Elementum/Torrest are needed"
+msgid "Jacktook and Elementum/Torrest/JackTorr are needed"
 msgstr ""
 
 msgctxt "#32008"

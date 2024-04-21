@@ -13,7 +13,7 @@ def sorted_results(content):
 def get_oscars(year, only_winners = 'true'):
 	if only_winners == 'true': result = oscar.winners(year)
 	else: result = oscar.winners_and_nominees(year)
-	all = parse_movies_result({'results': result})
+	all = parse_movies_result({'results': result}, parse_custom_title=True)
 	return sorted_results(all)
 
 def get_trending(page = 1):
@@ -167,7 +167,7 @@ def get_season_episodes(tmdb_id, season):
 		except Exception as e: utils.log(e)
 	return all
 
-def parse_movies_result(json):
+def parse_movies_result(json, parse_custom_title = False):
 	all = []
 	for r in json['results']:
 		try:
@@ -177,6 +177,7 @@ def parse_movies_result(json):
 				'tmdb': str(r['id']),
 				'titulo': r['title'],
 				'titulo_original': r['original_title'],
+				'titulo_customizado': r['custom_title'] if parse_custom_title else '',
 				'sinopse': utils.localStr(32022) % (r['release_date'][0:4], str(r['vote_average']), str(r['vote_count']), r['overview']),
 				# w500, w780, original
 				'imagem': 'https://image.tmdb.org/t/p/w780' + r['poster_path'],

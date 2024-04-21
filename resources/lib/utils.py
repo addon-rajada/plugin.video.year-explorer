@@ -208,9 +208,11 @@ def jacktook_url(type, title, tmdb, imdb, tvdb, season = 1, episode = 1):
 
 		extra = ''
 		if get_setting('jacktook_version') == '0.2.1':
-			extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}' # default is 0.2.1
+			extra = f'&tvdata={episode_name}%2C%20{episode_num}%2C%20{season_num}' # 0.2.1
 		elif get_setting('jacktook_version') == '0.2.2':
 			extra = f'&tv_data={episode_name}%2C%20{episode_num}%2C%20{season_num}' # 0.2.2
+		elif get_setting('jacktook_version') == '0.2.4':
+			extra = f'&tv_data={episode_name}%28%5E%29{episode_num}%28%5E%29{season_num}' # 0.2.4
 		elif get_setting('jacktook_version') == '< 0.2.1':
 			extra = f'&tvdata={episode_num}%2C%20{season_num}' # < 0.2.1
 

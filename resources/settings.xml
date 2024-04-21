@@ -4,6 +4,6 @@
         <setting label="32016" id="idioma" type="labelenum" values="pt-BR|pt-PT|en-US|es-ES|es-MX|es-AR" default="pt-BR" />
 		<setting label="32030" id="container_type" type="labelenum" values="Albums|Movies|Videos" default="Albums" />
 		<setting label="32031" id="view_mode" type="labelenum" values="list|poster|iconwall|shift|infowall|widelist|wall|banner|fanart" default="infowall" />
-		<setting label="32033" id="jacktook_version" type="labelenum" values="< 0.2.1|0.2.1|0.2.2" default="0.2.1" />
+		<setting label="32033" id="jacktook_version" type="labelenum" values="< 0.2.1|0.2.1|0.2.2|0.2.4" default="0.2.4" />
     </category>
 </settings>
