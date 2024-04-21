@@ -253,13 +253,13 @@ def play(url, mode = 'resolved', li = None):
 
 def createFolder(function, label, arguments_list, image = icon_img, plot = '', thumb = icon_img, cm_items = []):
 	# create folder linked to some function and given arguments
-	li = ListItem(bold(label))
+	li = ListItem(label)
 	li.setArt({
 		'icon': img(thumb), 'thumb': img(thumb),
 		'poster': img(image), 'banner': img(image)
 	})
 	li.setInfo(type="video", infoLabels = {
-		"plot": bold(plot)
+		"plot": plot
 	})
 	li.setProperty("fanart_image", img(fanart_img))
 	if len(cm_items) > 0: li.addContextMenuItems(cm_items)
@@ -267,9 +267,9 @@ def createFolder(function, label, arguments_list, image = icon_img, plot = '', t
 
 def createWelcomeItem(message, plot, entrypoint_function):
 	# create first item of addon
-	welcomeItem = ListItem(bold(message))
+	welcomeItem = ListItem(message)
 	welcomeItem.setInfo(type="video", infoLabels = {
-		"plot": bold(plot)
+		"plot": plot
 	})
 	welcomeItem.setArt({'icon': img(icon_img)})
 	welcomeItem.setProperty("fanart_image", img(fanart_img))
@@ -277,7 +277,7 @@ def createWelcomeItem(message, plot, entrypoint_function):
 
 def createItem(url, label, **kwargs):
 	# create playable item
-	li = ListItem(bold(label))
+	li = ListItem(label)
 	try:
 		li.setInfo(type="video", infoLabels = {
 			"title": label,
